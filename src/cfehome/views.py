@@ -4,10 +4,15 @@ from django.shortcuts import render
 from .forms import LandingPageForm
 
 def home_page(request, *args, **kwargs):
+    # GET
+    # POST
     title = "Welcome home"
-    print(request.method == "POST")
-    form = LandingPageForm()
-    print(request.POST.get("email"))
+    # print(request.method == "POST")
+    form = LandingPageForm(request.POST or None)
+    if form.is_valid():
+        print(form.cleaned_data)
+        form = LandingPageForm()
+    # print("your email is", request.POST.get("email"))
 
     context = {
         "title": title,
