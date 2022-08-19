@@ -1,5 +1,5 @@
-from django.http import HttpResponse
+# from django.http import HttpResponse
+from django.shortcuts import render
 
-
-def home_page(*args, **kwargs):
-    return HttpResponse("<h1>Hello World</h1>")
+def home_page(request, *args, **kwargs):
+    return render(request, "index.html")
