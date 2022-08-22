@@ -34,3 +34,13 @@ def home_page(request, *args, **kwargs):
     }
     # parag = "{title} Justin!".format(**context)
     return render(request, "landing_pages/home.html", context)
+
+
+
+def landing_page_entry_list_view(request, *args, **kwargs):
+    qs = LandingPageEntry.objects.all()
+    context = {
+        "object_list": qs
+    }
+    return render(request, "landing_pages/list.html", context)
+

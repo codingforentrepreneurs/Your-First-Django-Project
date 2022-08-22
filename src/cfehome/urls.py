@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 # from ..landing_pages import views as lp_views
 from landing_pages import views as lp_views
@@ -22,5 +22,6 @@ from landing_pages import views as lp_views
 
 urlpatterns = [
     path("", lp_views.home_page),
+    path('entries/', include('landing_pages.urls')),
     path("admin/", admin.site.urls),
 ]
