@@ -8,7 +8,6 @@ Entries - {{ block.super }}
 {% block content %}
 <h1>Entries</h1>
 
-
 <ul>
     {% for object in object_list %}
     <li>{{ object.email }} - {{ object.name }} - {{ object.timestamp }}</li>
