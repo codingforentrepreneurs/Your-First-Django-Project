@@ -10,9 +10,11 @@
   <body>
     {% include 'base/navbar.html' %}
 
-    {% block content %}
+    <div class="container-fluid">
+      {% block content %}
 
-    {% endblock %}
+      {% endblock %}
+    </div>
 
 
     {% include 'base/js.html' %}
