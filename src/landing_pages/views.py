@@ -1,8 +1,9 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
 
 from .models import LandingPageEntry
-from .forms import LandingPageEntryModelForm
+from .forms import LandingPageEntryModelForm, EntryNotesModelForm
 
 def home_page(request, *args, **kwargs):
     # GET
@@ -58,16 +59,17 @@ def landing_page_entry_detail_view(request, id, *args, **kwargs):
     if not user.is_staff:
         return HttpResponse("You must be staff", status=400)
     obj = get_object_or_404(LandingPageEntry, id=id)
-    # obj = LandingPageEntry.objects.get(id=id)
-    # obj = LandingPageEntry.objects.get(notes_by=user) # Object or None or Raise ERROR
-    # try:
-    #     obj = LandingPageEntry.objects.get(notes_by=user)
-    # except LandingPageEntry.DoesNotExist:
-    #     raise Http404
-    # except LandingPageEntry.MultipleObjectsReturned:
-    #     obj = LandingPageEntry.objects.filter(notes_by=user).first()
+    form = EntryNotesModelForm(request.POST or None, instance=obj)
+    if form.is_valid():
+        obj = form.save(commit=False)
+        if not obj.notes_by:
+            obj.notes_first_added = timezone.now()
+        obj.notes_by = user
+        obj.save()
+        return HttpResponseRedirect(obj.get_absolute_url())
     context = {
-        "object": obj
+        "object": obj,
+        "form": form,
     }
     return render(request, "landing_pages/detail.html", context)
 

@@ -10,7 +10,7 @@ Entries - {{ block.super }}
 
 <ul>
     {% for object in object_list %}
-    <li>{{ object.email }} - {{ object.name }} - {{ object.timestamp }}</li>
+    <li><a href='{{ object.get_absolute_url }}'>{{ object.email }} - {{ object.name }} - {{ object.timestamp }}</a></li>
     {% endfor %}
 
 </ul>

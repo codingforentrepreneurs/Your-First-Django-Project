@@ -1,28 +1,21 @@
 from django import forms
 
+from . import mixins
 from .models import LandingPageEntry
 
-class LandingPageEntryModelForm(forms.ModelForm):
+class EntryNotesModelForm(mixins.BootstrapFormMixin, forms.ModelForm):
+    class Meta:
+        model = LandingPageEntry
+        fields = ["name", "email", "notes"]
+
+
+class LandingPageEntryModelForm(mixins.BootstrapFormMixin, forms.ModelForm):
     name = forms.CharField(required=False)
     email2 = forms.EmailField(label='Confirm Email')
 
     class Meta:
         model = LandingPageEntry
         fields = ["name", "email"]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields:
-            default_css_class = 'form-control' # bootstrap
-            new_attrs = {
-                "class": default_css_class,
-                "id": f"{field}",
-                "placeholder": f"Your {field}",
-            }
-            if field == "email2":
-                new_attrs['placeholder'] = f"Confirm your email"
-            self.fields[field].widget.attrs.update(new_attrs)
-
 
     def clean(self):
         data = self.cleaned_data
@@ -43,24 +36,10 @@ class LandingPageEntryModelForm(forms.ModelForm):
 
 
 
-class LandingPageForm(forms.Form):
+class LandingPageForm(mixins.BootstrapFormMixin, forms.Form):
     name = forms.CharField(required=False)
     email = forms.EmailField()
     email2 = forms.EmailField(label='Confirm Email')
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields:
-            default_css_class = 'form-control' # bootstrap
-            new_attrs = {
-                "class": default_css_class,
-                "id": f"{field}",
-                "placeholder": f"Your {field}",
-            }
-            if field == "email2":
-                new_attrs['placeholder'] = f"Confirm your email"
-            self.fields[field].widget.attrs.update(new_attrs)
-
 
     def clean(self):
         data = self.cleaned_data

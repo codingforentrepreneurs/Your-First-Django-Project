@@ -14,7 +14,11 @@ Entry #{{ object.id }} - {{ block.super }}
 <p>Time since created: {{ object.timestamp|timesince }} ago </p>
 
 
-</ul>
+
+<form method="POST">{% csrf_token %}
+    {{ form }}
+    <button type="submit">Send</button>
+    </form>
 
 {% endblock %}
 
