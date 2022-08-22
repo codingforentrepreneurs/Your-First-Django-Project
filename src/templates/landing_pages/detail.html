@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Entry #{{ object.id }} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h1>Entry #{{ object.id }}</h1>
+
+<p>Email: {{ object.email }} </p>
+<p>Name: {{ object.name }} </p>
+<p>Timestamp: {{ object.timestamp }} </p>
+<p>Time since created: {{ object.timestamp|timesince }} ago </p>
+
+
+</ul>
+
+{% endblock %}
+
+
