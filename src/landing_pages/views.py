@@ -73,3 +73,7 @@ def entry_list_notes_view(request, *args, **kwargs):
     }
     return render(request, "landing_pages/list.html", context)
 
+
+
+def bootstrap_view(request, *args, **kwargs):
+    return render(request, "landing_pages/bootstrap.html", {})
