@@ -8,10 +8,14 @@
 {% block content %}
 <h1>{{ title }}</h1>
 
+{% if not request.session.did_submit %}
 <form method="POST">{% csrf_token %}
 {{ form }}
 <button type="submit">Send</button>
 </form>
+{% else %}
+<p>Thank you for your entry.</p>
+{% endif %}
 {% endblock %}
 
 

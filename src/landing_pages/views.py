@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
@@ -5,35 +6,21 @@ from django.utils import timezone
 from .models import LandingPageEntry
 from .forms import LandingPageEntryModelForm, EntryNotesModelForm
 
+
+
 def home_page(request, *args, **kwargs):
-    # GET
-    # POST
     title = "Welcome home"
-    # print(request.method == "POST")
     form = LandingPageEntryModelForm(request.POST or None)
     if form.is_valid():
-        obj = form.save()
-        print(obj)
-        # print(form.cleaned_data)
-        # name = form.cleaned_data.get("name")
-        # email = form.cleaned_data.get("email")
-        # obj = LandingPageEntry.objects.create(name=name, email=email)
-        # obj.email = email
-        # obj.save()
-        
-        # obj2 = LandingPageEntry()
-        # obj2.name = name
-        # obj2.email = email
-        # obj2.save()
-
+        form.save()
+        messages.success(request, "Thanks for joining!", extra_tags='alert-success')
         form = LandingPageEntryModelForm()
-    # print("your email is", request.POST.get("email"))
-
+        request.session['did_submit'] = True
+        return HttpResponseRedirect("/")
     context = {
         "title": title,
-        "form": form
+        "form": form,
     }
-    # parag = "{title} Justin!".format(**context)
     return render(request, "landing_pages/home.html", context)
 
 
@@ -66,6 +53,7 @@ def landing_page_entry_detail_view(request, id, *args, **kwargs):
             obj.notes_first_added = timezone.now()
         obj.notes_by = user
         obj.save()
+        messages.success(request, f"Entry {obj.id} Updated!", extra_tags='alert-success')
         return HttpResponseRedirect(obj.get_absolute_url())
     context = {
         "object": obj,
