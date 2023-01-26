@@ -25,7 +25,12 @@ SECRET_KEY = "django-insecure-il6jj75x$nv+$vz6h-6!l%bs_fmag!h^096bvl*9aw+0n!#iej
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [".desalsa.io", ".cfe.sh"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://*.desalsa.io:8200",
+    "https://*.cfe.sh",
+]
 
 
 # Application definition
@@ -118,6 +123,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+
+STATICFILES_DIRS = [
+    # "/Users/cfe/Dev/django-tailwindcss/src/static",
+    BASE_DIR / "static"
+]
+
+STATIC_ROOT = BASE_DIR / "local-cdn" / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
